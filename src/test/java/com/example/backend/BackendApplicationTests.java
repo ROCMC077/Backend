@@ -1,6 +1,7 @@
 package com.example.backend;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -11,6 +12,9 @@ import com.example.backend.service.CommentService;
 class BackendApplicationTests {
 	@Autowired
 	CommentService commentService;
+	
+	@Autowired
+	RabbitTemplate rabbitTemplate;
 
 	@Test
 	void contextLoads() {
@@ -30,6 +34,11 @@ class BackendApplicationTests {
 		comment.setAuthor("junit作者");
 		comment.setFkId(666);
 		commentService.updateComment(comment);
+	}
+	
+	@Test
+	public void bindXQ() {
+		rabbitTemplate.convertAndSend("routing_exchange","error_routing_key","routing send error message");
 	}
 
 }
