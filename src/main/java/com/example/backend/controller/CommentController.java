@@ -29,6 +29,7 @@ public class CommentController {
 	
 	@PostMapping("/updateComment")
 	public Integer updateComment(@RequestBody Comment comment) {
+		System.err.println("enter update");
 		return commentService.updateComment(comment);
 	}
 	

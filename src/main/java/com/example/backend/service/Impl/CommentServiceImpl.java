@@ -24,7 +24,7 @@ public class CommentServiceImpl implements CommentService{
 			System.err.println("從redis找");
 			return (Comment)obj;
 		}else {
-			System.out.println("從資料庫找, 並把數據存到redis");
+			System.err.println("從資料庫找, 並把數據存到redis");
 			Comment comment = commentMapper.findById(id);
 			redisTemplate.opsForValue().set(id,comment);
 			return comment;
@@ -35,8 +35,8 @@ public class CommentServiceImpl implements CommentService{
 	@Override
 	public Integer updateComment(Comment comment) {
 		Integer result = commentMapper.updateComment(comment);
-		// 更新Redis中的緩存
-		redisTemplate.opsForValue().set(comment.getId(), comment);
+		// 刪除Redis中的緩存
+		redisTemplate.delete(comment.getId());
 		return result;
 	}
 	
