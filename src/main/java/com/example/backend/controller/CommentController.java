@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backend.entity.Comment;
 import com.example.backend.service.CommentService;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class CommentController {
@@ -33,7 +34,7 @@ public class CommentController {
 		return commentService.updateComment(comment);
 	}
 	
-	@GetMapping("/sendComment/{id}")
+	@GetMapping("/rabbitSendComment/{id}")
 	public Comment send2mq(@PathVariable Integer id) {
 		Comment comment = new Comment();
 		comment.setId(id);
